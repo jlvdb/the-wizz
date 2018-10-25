@@ -1,4 +1,4 @@
-#! /usr/local/bin/python
+#!/usr/bin/env python
 
 """This code is the main access point for the majority of users of The-wiZZ. It
 takes an input subselection of a survey catalog, a The-wiZZ HDF5 data file, and
@@ -52,25 +52,28 @@ if __name__ == "__main__":
     # has the convienent property of giving errors that can be more easlily
     # compared the usual simga/(1 + z) error.
     print("Creating bins...")
-    if args.z_binning_type == 'linear':
+    if args.z_binning_type[0] == 'linear':
         z_bin_edge_array = pdf_maker_utils._create_linear_redshift_bin_edges(
             args.z_min, args.z_max, args.z_n_bins)
-    elif args.z_binning_type == 'adaptive':
+    elif args.z_binning_type[0] == 'adaptive':
         z_bin_edge_array = pdf_maker_utils._create_adaptive_redshift_bin_edges(
             args.z_min, args.z_max, args.z_n_bins,
             pdf_maker.reference_redshift_array)
-    elif args.z_binning_type == 'comoving':
+    elif args.z_binning_type[0] == 'comoving':
         z_bin_edge_array = pdf_maker_utils._create_comoving_redshift_bin_edges(
             args.z_min, args.z_max, args.z_n_bins)
-    elif args.z_binning_type == 'logspace':
+    elif args.z_binning_type[0] == 'logspace':
         z_bin_edge_array = pdf_maker_utils._create_logspace_redshift_bin_edges(
             args.z_min, args.z_max, args.z_n_bins)
+    elif args.z_binning_type[0] == 'file':
+        z_bin_edge_array = np.loadtxt(args.z_binning_type[1])
     else:
         print("Requested binning name invalid. Valid types are:")
         print("\tlinear: linear binning in redshift")
         print("\tadaptive: constant reference objects per redshift bin")
         print("\tcomoving: linear binning in comoving distance")
-        print("Retunning linear binning...")
+        print("\tfile: file providing the bin edges")
+        print("Returning linear binning...")
         z_bin_edge_array = pdf_maker_utils._create_linear_redshift_bin_edges(
             args.z_min, args.z_max, args.z_n_bins)
     # This is where the heavy lifting happens. We create our PDF maker object

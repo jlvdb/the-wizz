@@ -59,14 +59,16 @@ def parse_input_pdf_args():
     parser.add_argument('--z_n_bins', default=100,
                         type=int, help='Number of redshifts to specify '
                         'between z_min and z_max')
-    parser.add_argument('--z_binning_type', default='linear',
+    parser.add_argument('--z_binning_type', default='linear', nargs='*',
                         type=str, help='Specify which type of binning to '
                         'use for the redshift bins. Choices are: '
                         '    linear: linear binning in redshift'
                         '    adapt: chose bins so that each has equal number '
                         'tarets.'
                         '    comoving: linear binning in comoving distance'
-                        '    logspace: linear binning in ln(1 + z)')
+                        '    logspace: linear binning in ln(1 + z)'
+                        '    file: load bin egdes from a file provided '
+                        'as second argument.')
     parser.add_argument('--use_inverse_weighting', action='store_true',
                         help='Use the inverse distance weighted columns from '
                         'the pair file instead of just a straight sum of '

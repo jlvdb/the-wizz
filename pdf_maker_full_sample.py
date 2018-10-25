@@ -1,4 +1,4 @@
-#! /usr/local/bin/python
+#!/usr/bin/env python
 
 """This program is a convinience method for computing the clustering redshift
 recovery for the full unknown sample stored in pair_maker.py. In this mode
