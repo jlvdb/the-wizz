@@ -66,7 +66,7 @@ if __name__ == "__main__":
         z_bin_edge_array = pdf_maker_utils._create_logspace_redshift_bin_edges(
             args.z_min, args.z_max, args.z_n_bins)
     elif args.z_binning_type[0] == 'file':
-        z_bin_edge_array = np.loadtxt(args.z_binning_type[1])
+        z_bin_edge_array = np.loadtxt(args.z_binning_type[1])[:-1]
     else:
         print("Requested binning name invalid. Valid types are:")
         print("\tlinear: linear binning in redshift")
