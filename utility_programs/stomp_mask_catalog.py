@@ -60,7 +60,7 @@ if __name__ == "__main__":
         region_array = np.empty(data.shape[0], dtype=np.uint32)
     print("Masking...")
     for idx, obj in enumerate(data):
-        if idx % (data.shape[0] / 10) == 0:
+        if idx % (data.shape[0] // 10) == 0:
             print("\tObject #%i..." % idx)
 
         tmp_ang = stomp.AngularCoordinate(

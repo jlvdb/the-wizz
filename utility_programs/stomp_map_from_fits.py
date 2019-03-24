@@ -120,9 +120,9 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
         w = wcs.WCS(fits.getheader(wcs_file))
 
 
-    naxis1_edge_step = ((hdu[0].header['NAXIS1'] - 1 - 2 * offset) /
+    naxis1_edge_step = ((hdu[0].header['NAXIS1'] - 1 - 2 * offset) //
                         (1. * n_points))
-    naxis2_edge_step = ((hdu[0].header['NAXIS2'] - 1 - 2 * offset) /
+    naxis2_edge_step = ((hdu[0].header['NAXIS2'] - 1 - 2 * offset) //
                         (1. * n_points))
 
     if counter_clockwise_pixels:
