@@ -59,10 +59,14 @@ def create_hdf5_file(hdf5_file_name, args):
     if args is not None:
         flag_grp = hdf5_file.create_group('input_flags')
         for arg in vars(args):
+            kwargs = {}
+            if type(arg) is str:
+                kwargs["dtype"] = h5py.special_dtype(vlen=str)
             if getattr(args, arg) is None:
-                flag_grp.attrs.create(arg, 'None'))
+                flag_grp.attrs.create(
+                    arg, 'None', dtype=h5py.special_dtype(vlen=str))
             else:
-                flag_grp.attrs.create(arg, getattr(args, arg))
+                flag_grp.attrs.create(arg, getattr(args, arg), **kwargs)
     return hdf5_file
 
 
