@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """This is the main program for running the pair finder and creating the data
 file that contains the raw pair information between the reference and unknown

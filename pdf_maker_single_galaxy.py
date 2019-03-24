@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """Program to create single galaxy clustering redshifts from creating a kdTree
 on on properties an input catalog of objects and a set of objects to match into
