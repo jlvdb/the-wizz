@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 from astropy.io import fits
@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
     # Write file to disk and close the currently open fits file.
     col_list = []
-    for idx in xrange(len(data.names)):
+    for idx in range(len(data.names)):
         if args.n_regions is not None and \
            data.names[idx] == args.region_column_name:
             continue

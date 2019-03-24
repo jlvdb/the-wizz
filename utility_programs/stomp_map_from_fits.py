@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 from astropy import wcs
@@ -60,8 +60,8 @@ def create_exclusion(input_mask, output_map_name,
 
     tot_pix = 0
     output_map = stomp.Map()
-    for idx1 in xrange(mask.shape[0]):
-        for idx2 in xrange(mask.shape[1]):
+    for idx1 in range(mask.shape[0]):
+        for idx2 in range(mask.shape[1]):
             if not mask_is_less_than and mask[idx1, idx2] <= 0:
                 continue
             elif mask_is_less_than and mask[idx1, idx2] >= 0:
@@ -128,7 +128,7 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
     if counter_clockwise_pixels:
         ang_vect = stomp.AngularVector()
         ### South edge:
-        for p_idx in xrange(n_points):
+        for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[1 + offset + p_idx * naxis1_edge_step,
                            1 + offset]],
@@ -137,7 +137,7 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
             tmp_point[0], tmp_point[1],
             stomp.AngularCoordinate.Equatorial))
         ### West edge:
-        for p_idx in xrange(n_points):
+        for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[hdu[0].header['NAXIS1'] - offset,
                            1 + offset + p_idx * naxis2_edge_step]],
@@ -146,7 +146,7 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
                 tmp_point[0], tmp_point[1],
                 stomp.AngularCoordinate.Equatorial))
         ### North edge:
-        for p_idx in xrange(n_points):
+        for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[hdu[0].header['NAXIS1'] - offset -
                            p_idx * naxis1_edge_step,
@@ -156,7 +156,7 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
                 tmp_point[0], tmp_point[1],
                 stomp.AngularCoordinate.Equatorial))
         ### East edge:
-        for p_idx in xrange(n_points):
+        for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[1 + offset,
                            hdu[0].header['NAXIS2'] - offset -
@@ -168,7 +168,7 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
     else:
         ang_vect = stomp.AngularVector()
         ### South edge:
-        for p_idx in xrange(n_points):
+        for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[1 + offset,
                            1 + offset + p_idx * naxis2_edge_step]],
@@ -177,7 +177,7 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
             tmp_point[0], tmp_point[1],
             stomp.AngularCoordinate.Equatorial))
         ### West edge:
-        for p_idx in xrange(n_points):
+        for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[ 1 + offset + p_idx * naxis1_edge_step,
                            hdu[0].header['NAXIS2'] - offset]],
@@ -186,7 +186,7 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
                 tmp_point[0], tmp_point[1],
                 stomp.AngularCoordinate.Equatorial))
         ### North edge:
-        for p_idx in xrange(n_points):
+        for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[hdu[0].header['NAXIS1'] - offset ,
                            hdu[0].header['NAXIS2'] - offset -
@@ -196,7 +196,7 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
                 tmp_point[0], tmp_point[1],
                 stomp.AngularCoordinate.Equatorial))
         ### East edge:
-        for p_idx in xrange(n_points):
+        for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[hdu[0].header['NAXIS1'] - offset -
                            p_idx * naxis1_edge_step,

@@ -143,8 +143,8 @@ def collapse_ids_to_single_estimate(hdf5_data_file_name, scale_name,
         _load_pair_data,
         [(args.input_pair_hdf5_file, scale_name,
           key_array[start_idx:start_idx + args.n_reference_load_size])
-         for start_idx in xrange(0, len(key_array),
-                                 args.n_reference_load_size)])
+         for start_idx in range(0, len(key_array),
+                                args.n_reference_load_size)])
 
     print("\tPre-loading unknown data...")
     id_array, rand_ratio, weight_array, ave_weight = \
@@ -184,7 +184,7 @@ def collapse_ids_to_single_estimate(hdf5_data_file_name, scale_name,
                                           np.sqrt(len(pair_data)), 1)))
 
         print('\t\tStoring reference data...')
-        for ref_idx, ref_data in zip(xrange(start_idx, end_idx), pair_data):
+        for ref_idx, ref_data in zip(range(start_idx, end_idx), pair_data):
             pdf_maker_obj.sef_reference_obj_data(ref_idx, ref_data)
 
         print("\t\tComputing/storing pair count...")
@@ -229,10 +229,10 @@ def _compute_region_densities_and_weights(unknown_data, hdf5_data_grp, args):
         id_array = [id_array[
             unknown_data[args.unknown_stomp_region_name][id_args_array] ==
             reg_idx]
-            for reg_idx in xrange(hdf5_data_grp.attrs['n_region'])]
+            for reg_idx in range(hdf5_data_grp.attrs['n_region'])]
         tmp_n_region = np.array(
             [id_array[reg_idx].shape[0]
-             for reg_idx in xrange(hdf5_data_grp.attrs['n_region'])],
+             for reg_idx in range(hdf5_data_grp.attrs['n_region'])],
             dtype=np.int_)
         rand_ratio = (
             (tmp_n_region / hdf5_data_grp.attrs['n_random_points']) *
@@ -249,10 +249,10 @@ def _compute_region_densities_and_weights(unknown_data, hdf5_data_grp, args):
         weight_array = [weight_array[
             unknown_data[args.unknown_stomp_region_name][id_args_array] ==
             reg_idx]
-            for reg_idx in xrange(hdf5_data_grp.attrs['n_region'])]
+            for reg_idx in range(hdf5_data_grp.attrs['n_region'])]
         ave_weight = np.array(
             [weight_array[reg_idx].mean()
-             for reg_idx in xrange(hdf5_data_grp.attrs['n_region'])],
+             for reg_idx in range(hdf5_data_grp.attrs['n_region'])],
             dtype=np.float_)
 
     return id_array, rand_ratio, weight_array, ave_weight
@@ -399,7 +399,7 @@ def collapse_full_sample(hdf5_pairs_grp, pdf_maker_obj, unknown_data, args):
         tmp_n_region = np.array(
             [unknown_data[unknown_data[args.unknown_stomp_region_name] ==
                           reg_idx].shape[0]
-             for reg_idx in xrange(hdf5_pairs_grp.attrs['n_region'])],
+             for reg_idx in range(hdf5_pairs_grp.attrs['n_region'])],
             dtype=np.int_)
         rand_ratio = ((tmp_n_region /
                        hdf5_pairs_grp.attrs['n_random_points']) *
@@ -516,7 +516,7 @@ class PDFMaker(object):
 
         max_n_regions = self.reference_region_array.max() + 1
         region_list = []
-        for region_idx in xrange(max_n_regions):
+        for region_idx in range(max_n_regions):
             if np.any(region_idx == self.reference_region_array):
                 region_list.append(region_idx)
         self.region_array = np.array(region_list, dtype=np.uint32)
@@ -845,7 +845,7 @@ class PDFMaker(object):
         output_file.writelines('#type5 = n_random\n')
         output_file.writelines('#type6 = area\n')
         output_file.writelines('#type7 = ave resolution\n')
-        for bin_idx in xrange(self.redshift_array.shape[0]):
+        for bin_idx in range(self.redshift_array.shape[0]):
             output_file.writelines(
                 '%.8e %.8e %.8e %.8e %.8e %.8e %.8e\n' %
                 (self.redshift_array[bin_idx], self.density_array[bin_idx],

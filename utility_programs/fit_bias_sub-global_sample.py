@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 from copy import copy
@@ -95,12 +95,12 @@ class MagLimFitter(object):
         self._n_z_bins = n_z_bins
         self._n_bins = self._phi.shape[0] / n_z_bins
         self._weights = np.ones(self._phi.shape[0])
-        for bin_idx in xrange(self._n_bins ):
+        for bin_idx in range(self._n_bins ):
             self._weights[bin_idx * n_z_bins:
                           (bin_idx + 1) * n_z_bins] = weights[bin_idx]
         
         self._pz_norm = np.ones(self._phi.shape[0])
-        for bin_idx in xrange(self._n_bins):
+        for bin_idx in range(self._n_bins):
             self._pz_norm[bin_idx * self._n_z_bins:
                           (bin_idx + 1) * self._n_z_bins] *= (
                 self._weights[bin_idx] /
@@ -112,10 +112,10 @@ class MagLimFitter(object):
         
         self._I_matrix = np.zeros((self._n_z_bins, self._n_z_bins),
                                     np.float_)
-        for diag in xrange(self._n_z_bins):
+        for diag in range(self._n_z_bins):
             self._I_matrix[diag, diag] = 1
         self._trans_matrix = copy(self._I_matrix)
-        for bin_idx in xrange(self._n_bins - 2):
+        for bin_idx in range(self._n_bins - 2):
             self._trans_matrix = np.concatenate(
                 (self._trans_matrix, self._I_matrix), axis = 1)
         self._trans_matrix = np.concatenate(
@@ -146,7 +146,7 @@ class MagLimFitter(object):
         self._phi_cov = self._hold_phi_cov / np.outer(bias_array, bias_array)
         
         self._pz_norm = np.ones(self._phi.shape[0])
-        for bin_idx in xrange(self._n_bins):
+        for bin_idx in range(self._n_bins):
             self._pz_norm[bin_idx * self._n_z_bins:
                           (bin_idx + 1) * self._n_z_bins] *= (
                 1.0 /
@@ -226,7 +226,7 @@ class MagLimFitter(object):
         ndim, nwalkers = self._n_parm, 100
         wander = np.where(np.array([value / 10.0 for value in self._x]) != 0,
                           np.array([value / 10.0 for value in self._x]), 1e-8)
-        pos = [self._x + wander*np.random.randn(ndim) for i in xrange(nwalkers)]
+        pos = [self._x + wander*np.random.randn(ndim) for i in range(nwalkers)]
         sampler = emcee.EnsembleSampler(nwalkers, ndim, self.lnprob)
         
         print("Running MCMC...")
@@ -243,8 +243,8 @@ class MagLimFitter(object):
         self.set_error(std)
         
         self._covar = np.zeros((ans.shape[0], ans.shape[0]))
-        for idx1 in xrange(self._covar.shape[0]):
-            for idx2 in xrange(self._covar.shape[1]):
+        for idx1 in range(self._covar.shape[0]):
+            for idx2 in range(self._covar.shape[1]):
                 self._covar[idx1, idx2] += np.sum(
                     (samples[:,idx1] - ans[idx1]) *
                     (samples[:,idx2] - ans[idx2]))
@@ -258,7 +258,7 @@ class MagLimFitter(object):
             
             fig = corner.corner(samples, bins = 50,
                                 labels=["param%i" % idx
-                                        for idx in xrange(ans.shape[0])],
+                                        for idx in range(ans.shape[0])],
                                 quantiles=[0.16, 0.5, 0.84])
             fig.savefig("bias_corner.pdf")
             
@@ -367,13 +367,13 @@ if __name__ == "__main__":
     output_header = 'input_flags:\n'
     for arg in vars(args):
         output_header += '\t%s : %s\n' % (arg, getattr(args, arg))
-    for idx in xrange(len(ans)):
+    for idx in range(len(ans)):
         output_header += 'row_param%i\n' % idx
     
     covar = maglim_fitter.get_covariance()
-    for var_idx in xrange(len(ans)):
+    for var_idx in range(len(ans)):
         output_string = '%.8e %.8e ' % (ans[var_idx], err[var_idx])
-        for covar_idx in xrange(len(ans)):
+        for covar_idx in range(len(ans)):
             output_string += '%.8e ' % covar[var_idx, covar_idx]
         output_string += '\n'
         output_file.writelines(output_string)

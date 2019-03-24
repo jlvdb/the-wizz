@@ -47,10 +47,10 @@ def collapse_ids_to_single_estimate(hdf5_pairs_group, pair_data, pdf_maker_obj,
         id_array = [id_array[
             unknown_data[args.unknown_stomp_region_name][id_args_array] ==
             reg_idx]
-            for reg_idx in xrange(hdf5_pairs_group.attrs['n_region'])]
+            for reg_idx in range(hdf5_pairs_group.attrs['n_region'])]
         tmp_n_region = np.array(
             [id_array[reg_idx].shape[0]
-             for reg_idx in xrange(hdf5_pairs_group.attrs['n_region'])],
+             for reg_idx in range(hdf5_pairs_group.attrs['n_region'])],
             dtype=np.int_)
         rand_ratio = ((tmp_n_region /
                        (1.*hdf5_pairs_group.attrs['n_random_points'])) *
@@ -65,10 +65,10 @@ def collapse_ids_to_single_estimate(hdf5_pairs_group, pair_data, pdf_maker_obj,
         weight_array = [weight_array[
             unknown_data[args.unknown_stomp_region_name][id_args_array] ==
             reg_idx]
-            for reg_idx in xrange(hdf5_pairs_group.attrs['n_region'])]
+            for reg_idx in range(hdf5_pairs_group.attrs['n_region'])]
         ave_weight = np.array(
             [weight_array[reg_idx].mean()
-             for reg_idx in xrange(hdf5_pairs_group.attrs['n_region'])],
+             for reg_idx in range(hdf5_pairs_group.attrs['n_region'])],
             dtype=np.float_)
     n_reference = len(hdf5_pairs_group)
     reference_unknown_array = np.empty(n_reference, dtype=np.float32)
@@ -193,7 +193,7 @@ class CatalogKDTree(object):
         """
         self._mean_array = self._internal_array.mean(axis=0)
         self._std_array = self._internal_array.std(axis=0)
-        for col_idx in xrange(self._internal_array.shape[1]):
+        for col_idx in range(self._internal_array.shape[1]):
             self._internal_array[:, col_idx] = (
                 (self._internal_array[:, col_idx] -
                  self._mean_array[col_idx]) / self._std_array[col_idx])
