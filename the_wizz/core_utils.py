@@ -62,6 +62,7 @@ def create_hdf5_file(hdf5_file_name, args):
             if getattr(args, arg) is None:
                 flag_grp.attrs.create(arg, 'None')
             else:
+                print(getattr(args, arg))
                 flag_grp.attrs.create(arg, str(getattr(args, arg)))
     return hdf5_file
 
