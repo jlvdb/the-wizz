@@ -129,7 +129,7 @@ def collapse_ids_to_single_estimate(hdf5_data_file_name, scale_name,
     n_reference = len(hdf5_data_grp)
     reference_unknown_array = np.empty(n_reference, dtype=np.float32)
 
-    key_array = hdf5_data_grp.keys()
+    key_array = list(hdf5_data_grp.keys())
     pdf_maker_obj = PDFMaker(key_array, args)
 
     # Initialize the workers.
@@ -704,7 +704,7 @@ class PDFMaker(object):
         if not self._computed_region_densities:
             print("PDFMaker.compute_region_densities not run. Exiting method.")
             return None
-        output_file = open(output_pickle_file, 'w')
+        output_file = open(output_pickle_file, 'wb')
         output_dict = {"input_flags": args,
                        "n_regions": self.region_array.shape[0],
                        "redshift": self._redshift_reg_array,
