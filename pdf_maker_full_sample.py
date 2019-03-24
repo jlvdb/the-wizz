@@ -10,8 +10,6 @@ The same input parameters are used as pdf_maker.py however some are not used in
 this program (e.g. n_process, unknown_weight_name).
 """
 
-from __future__ import division, print_function, absolute_import
-
 import numpy as np
 
 from the_wizz import core_utils

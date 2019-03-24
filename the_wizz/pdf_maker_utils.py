@@ -3,8 +3,6 @@
 file into a clustering redshift estimate given an input sample.
 """
 
-from __future__ import division, print_function, absolute_import
-
 import pickle
 
 import h5py

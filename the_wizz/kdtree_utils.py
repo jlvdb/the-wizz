@@ -3,8 +3,6 @@
 a k-dimensional tree in galaxy parameter space.
 """
 
-from __future__ import division, print_function, absolute_import
-
 from multiprocessing import Pool
 import numpy as np
 from scipy.spatial import cKDTree

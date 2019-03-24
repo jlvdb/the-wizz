@@ -7,8 +7,6 @@ and outputs the results for eatch object a match was requested of into a HDF5
 file.
 """
 
-from __future__ import division, print_function, absolute_import
-
 import numpy as np
 
 from the_wizz import core_utils

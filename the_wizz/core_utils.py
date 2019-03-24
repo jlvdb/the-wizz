@@ -3,8 +3,6 @@
 and setting the verbosity of the outputs.
 """
 
-from __future__ import division, print_function, absolute_import
-
 from astropy.cosmology import WMAP5
 from astropy.io import fits
 import h5py

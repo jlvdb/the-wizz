@@ -7,8 +7,6 @@ interest to allow users to later subselect samples from this catalog. See
 input_flags.py for a list of options or use --help from the command line.
 """
 
-from __future__ import division, print_function, absolute_import
-
 import sys
 
 import numpy as np

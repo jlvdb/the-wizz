@@ -3,8 +3,6 @@
 object with known redshifts and objects with unknown redshifts.
 """
 
-from __future__ import division, print_function, absolute_import
-
 import h5py
 from multiprocessing import Pool
 import numpy as np

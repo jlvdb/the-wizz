@@ -5,8 +5,6 @@ combines the pairs given a pair file and indexes is usable without having the
 STOMP library compiled.
 """
 
-from __future__ import division, print_function, absolute_import
-
 import numpy as np
 import stomp
 
