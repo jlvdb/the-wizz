@@ -112,7 +112,7 @@ def create_random_data(n_randoms, stomp_map):
     random_vect = stomp.AngularVector()
     stomp_map.GenerateRandomPoints(random_vect, n_randoms)
     random_tree = stomp.TreeMap(
-        np.max((128, stomp_map.RegionResolution())), 200)
+        int(np.max((128, stomp_map.RegionResolution()))), 200)
     print("\tLoading randoms into tree map...")
     for rand_ang in random_vect:
         random_tree.AddPoint(rand_ang, 1.0)
