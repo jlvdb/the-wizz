@@ -60,9 +60,9 @@ def create_hdf5_file(hdf5_file_name, args):
         flag_grp = hdf5_file.create_group('input_flags')
         for arg in vars(args):
             if getattr(args, arg) is None:
-                flag_grp.attrs.create(arg, bytes('None', 'utf8'))
+                flag_grp.attrs.create(arg, 'None'))
             else:
-                flag_grp.attrs.create(arg, bytes(getattr(args, arg), 'utf8'))
+                flag_grp.attrs.create(arg, getattr(args, arg))
     return hdf5_file
 
 
