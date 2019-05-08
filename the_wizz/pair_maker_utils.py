@@ -49,20 +49,20 @@ def _multi_proc_write_reference_to_hdf5(input_tuple):
     # lzf compression.
     if id_array.shape[0] <= 0:
         ref_scale_grp.create_dataset(
-            'ids', shape=id_array.shape, dtype=np.uint32)
+            'ids', shape=id_array.shape, dtype=np.uint64)
         ref_scale_grp.create_dataset(
             'dist_weights', shape=id_array.shape, dtype=np.float32)
     elif 0 < id_array.shape[0] <= 1000:
         ref_scale_grp.create_dataset(
             'ids', data=id_array[sorted_args_array],
-            shape=id_array.shape, dtype=np.uint32)
+            shape=id_array.shape, dtype=np.uint64)
         ref_scale_grp.create_dataset(
             'dist_weights', data=dist_weight_array[sorted_args_array],
             shape=id_array.shape, dtype=np.float32)
     else:
         ref_scale_grp.create_dataset(
             'ids', data=id_array[sorted_args_array],
-            shape=id_array.shape, dtype=np.uint32,
+            shape=id_array.shape, dtype=np.uint64,
             chunks=True, compression='lzf', shuffle=True)
         ref_scale_grp.create_dataset(
             'dist_weights', data=dist_weight_array[sorted_args_array],
@@ -260,7 +260,7 @@ class RawPairFinder(object):
                 ref_pair_id_array = np.concatenate(output_id_list)
                 ref_dist_weight_array = np.concatenate(output_dist_weight_list)
             else:
-                ref_pair_id_array = np.array([], dtype=np.uint32)
+                ref_pair_id_array = np.array([], dtype=np.uint64)
                 ref_dist_weight_array = np.array([], dtype=np.float32)
 
             # Create a temp list of the tuple we will send off to be stored
@@ -390,7 +390,7 @@ class RawPairFinder(object):
 
         # Since we know how many points we need we reserve that amount
         # in our output arrays.
-        output_id_array = np.empty(tmp_i_ang_vect.size(), dtype=np.uint32)
+        output_id_array = np.empty(tmp_i_ang_vect.size(), dtype=np.uint64)
         output_dist_weight_array = np.empty(
             tmp_i_ang_vect.size(), dtype=np.float32)
 
