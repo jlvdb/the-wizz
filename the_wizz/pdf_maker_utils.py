@@ -449,7 +449,7 @@ class PDFMaker(object):
         self.reference_redshift_array = np.empty(len(hdf5_data_keys),
                                                  dtype=np.float32)
         self.reference_region_array = np.empty(len(hdf5_data_keys),
-                                               dtype=np.uint64)
+                                               dtype=np.uint32)
         self.reference_area_array = np.empty(len(hdf5_data_keys),
                                              dtype=np.float32)
 
@@ -460,7 +460,7 @@ class PDFMaker(object):
         self.reference_hold_rand_array = np.empty(len(hdf5_data_keys),
                                                   dtype=np.float32)
         self.reference_resolution_array = np.empty(len(hdf5_data_keys),
-                                                   dtype=np.uint64)
+                                                   dtype=np.uint32)
         self._use_reference_densities = args.use_reference_cleaning
         self._use_inverse_weighting = args.use_inverse_weighting
         self._reference_unknown_array_set = False
@@ -517,7 +517,7 @@ class PDFMaker(object):
         for region_idx in range(max_n_regions):
             if np.any(region_idx == self.reference_region_array):
                 region_list.append(region_idx)
-        self.region_array = np.array(region_list, dtype=np.uint64)
+        self.region_array = np.array(region_list, dtype=np.uint32)
         self.region_dict = {}
         for array_idx, region_idx in enumerate(self.region_array):
             self.region_dict[region_idx] = array_idx
@@ -644,7 +644,7 @@ class PDFMaker(object):
             dtype=np.float32)
         self._n_reference_reg_array = np.zeros(
             (z_bin_edge_array.shape[0], self.region_array.shape[0]),
-            dtype=np.uint64)
+            dtype=np.uint32)
         self._unknown_reg_array = np.zeros(
             (z_bin_edge_array.shape[0], self.region_array.shape[0]),
             dtype=np.float32)
