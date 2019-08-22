@@ -42,7 +42,7 @@ def create_exclusion(input_mask, output_map_name,
         mask = fits.getdata(input_mask)
         ### Load the WCS from the input fits file.
     except ValueError:
-        print "ERROR: Failed to load", input_mask, "exiting"
+        print("ERROR: Failed to load", input_mask, "exiting")
         return None
     hdu = fits.open(input_mask)
     if wcs_file is None:
@@ -55,7 +55,7 @@ def create_exclusion(input_mask, output_map_name,
     else:
         max_pix = len(mask[mask > mask_value])
     # print "Total:", max_pix
-    print "Max Pix:", max_pix
+    print("Max Pix:", max_pix)
     pix_vect = stomp.PixelVector()
 
     tot_pix = 0
@@ -90,7 +90,7 @@ def create_exclusion(input_mask, output_map_name,
     pix_vect.clear()
     del tmp_map
 
-    print "Final Map:", output_map.Area(), output_map.Size()
+    print("Final Map:", output_map.Area(), output_map.Size())
     if output_map_name is not None:
         output_map.Write(output_map_name)
 
