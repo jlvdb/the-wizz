@@ -116,3 +116,34 @@ def create_random_data(n_randoms, stomp_map):
         random_tree.AddPoint(rand_ang, 1.0)
 
     return random_tree
+
+
+def load_random_data(sample_file_name, stomp_map, args):
+    """Method for loading a set of randomly positioned unknown objects on the
+    considerd geomometry. These is used for normalizing the output PDF and
+    properly estimating the "zero point" of the correlation amplitude. The code
+    returns a spatially searchable quad tree of the random points.
+    ----------------------------------------------------------------------------
+    Args:
+        sample_file_name: string name specifying the file containing the
+            random sample. Assumed file type is FITS.
+        stomp_map: STOMP.Map object specifying the geomometry of the area
+            considered.
+        args: ArgumentParser.parse_args object returned from input_flags.
+    Returns:
+        a STOMP::TreeMap map object
+    """
+    print("Loading random sample...")
+    sample_data = core_utils.file_checker_loader(sample_file_name)
+    random_tree = stomp.TreeMap(
+        int(np.max((128, stomp_map.RegionResolution()))), 200)
+    for idx, obj in enumerate(sample_data):
+        tmp_ang = stomp.AngularCoordinate(
+            np.double(obj[args.random_ra_name]),
+            np.double(obj[args.random_dec_name]),
+            stomp.AngularCoordinate.Equatorial)
+        if stomp_map.Contains(tmp_ang):
+            random_tree.AddPoint(tmp_ang)
+    print("\tLoaded %i / %i reference galaxies..." %
+          (random_tree.NPoints(), sample_data.shape[0]))
+    return random_tree

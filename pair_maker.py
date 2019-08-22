@@ -45,7 +45,10 @@ if __name__ == "__main__":
     # function creates a set of uniform data points on the geometry of the
     # stomp map.
     random_tree = None
-    if args.n_randoms > 0:
+    if args.random_sample_file is not None:
+        random_tree = stomp_utils.load_random_data(args.random_sample_file,
+                                                   stomp_map, args)
+    elif args.n_randoms > 0:
         random_tree = stomp_utils.create_random_data(
             args.n_randoms * unknown_itree.NPoints(), stomp_map)
     # Now that we have everything set up we can send our data off to the pair

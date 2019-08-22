@@ -297,6 +297,19 @@ def parse_input_pair_args():
     parser.add_argument('--unknown_index_name', default=None,
                         type=str, help='Name of unique object index for '
                         'the unknown objects. Indexes must be of type uint32')
+    parser.add_argument('--random_sample_file', required=False,
+                        type=str, help='Name of random object fits catalog.')
+    parser.add_argument('--random_ra_name', default='ALPHA_J2000',
+                        type=str, help='Name of ra column in random object '
+                        'fits file')
+    parser.add_argument('--random_dec_name', default='DELTA_J2000',
+                        type=str, help='Name of dec column in random object '
+                        'fits file')
+    parser.add_argument('--n_randoms', default=1,
+                        type=int, help='Number of random iterations to '
+                        'run for the natural estimator of 2-point '
+                        'correlations. Number of uniform random points will '
+                        'be n_randoms * # unknown objects.')
     parser.add_argument('--z_min', default=0.01,
                         type=float, help='Minimum redshift for both the '
                         'pair_maker and pdf_maker.')
@@ -315,11 +328,6 @@ def parse_input_pair_args():
                         'Expected units are physical kpc. Number of max '
                         'scales used should be equal to number of min scales '
                         'requested.')
-    parser.add_argument('--n_randoms', default=1,
-                        type=int, help='Number of random iterations to '
-                        'run for the natural estimator of 2-point '
-                        'correlations. Number of uniform random points will '
-                        'be n_randoms * # unknown objects.')
     parser.add_argument('--output_pair_hdf5_file', required=True,
                         type=str, help='Name of output HDF5 file to write '
                         'the pair counts between the spectroscopic and '
