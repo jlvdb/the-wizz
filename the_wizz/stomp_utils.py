@@ -144,6 +144,6 @@ def load_random_data(sample_file_name, stomp_map, args):
             stomp.AngularCoordinate.Equatorial)
         if stomp_map.Contains(tmp_ang):
             random_tree.AddPoint(tmp_ang)
-    print("\tLoaded %i / %i reference galaxies..." %
+    print("\tLoaded %i / %i random objects..." %
           (random_tree.NPoints(), sample_data.shape[0]))
     return random_tree
