@@ -7,15 +7,16 @@ import numpy as np
 import stomp
 
 """
-This program allows for the creation of STOMP map from a fits mask assuming that
-the masked pixels have positive values greater than the specified cut. It is
-recommended when specifying a resolution that is be roughly twice the area of
-the pixels in the fits file. If the user would like to use a resolution that is
-roughly the size of the input image pixels it is recommended that they first
+This program allows for the creation of STOMP map from a fits mask assuming
+that the masked pixels have positive values greater than the specified cut. It
+is recommended when specifying a resolution that is be roughly twice the area
+of the pixels in the fits file. If the user would like to use a resolution that
+is roughly the size of the input image pixels it is recommended that they first
 oversample the fits image pixels before using the software. For reference a
 resolution "1" pixel has an area of 88.1474 deg^2 and each resolution decreases
 the area by a factor of resolution^2'
 """
+
 
 def create_exclusion(input_mask, output_map_name,
                      max_resolution, max_load, mask_value,
@@ -40,9 +41,9 @@ def create_exclusion(input_mask, output_map_name,
     """
     try:
         mask = fits.getdata(input_mask)
-        ### Load the WCS from the input fits file.
+        # Load the WCS from the input fits file.
     except ValueError:
-        print "ERROR: Failed to load", input_mask, "exiting"
+        print("ERROR: Failed to load", input_mask, "exiting")
         return None
     hdu = fits.open(input_mask)
     if wcs_file is None:
@@ -54,8 +55,7 @@ def create_exclusion(input_mask, output_map_name,
         max_pix = len(mask[mask < mask_value])
     else:
         max_pix = len(mask[mask > mask_value])
-    # print "Total:", max_pix
-    print "Max Pix:", max_pix
+    print("Max Pix:", max_pix)
     pix_vect = stomp.PixelVector()
 
     tot_pix = 0
@@ -66,12 +66,9 @@ def create_exclusion(input_mask, output_map_name,
                 continue
             elif mask_is_less_than and mask[idx1, idx2] >= 0:
                 continue
-            #print idx1, idx2
             wcs_point = w.wcs_pix2world(np.array([[idx2 + 1, idx1 + 1]],
-                                                   np.float_), 1)
-            # print idx1, idx2, wcs_point
-            # print wcs_point
-            ang = stomp.AngularCoordinate(wcs_point[0,0], wcs_point[0,1],
+                                                 np.float_), 1)
+            ang = stomp.AngularCoordinate(wcs_point[0, 0], wcs_point[0, 1],
                                           stomp.AngularCoordinate.Equatorial)
             if output_map.Contains(ang):
                 continue
@@ -79,7 +76,7 @@ def create_exclusion(input_mask, output_map_name,
             if pix_vect.size() >= max_load:
                 tmp_map = stomp.Map(pix_vect)
                 if verbose:
-                    print("Created temp map. Area: %s" %tmp_map.Area())
+                    print("Created temp map. Area: %s" % tmp_map.Area())
                 output_map.IngestMap(tmp_map)
                 tot_pix += pix_vect.size()
                 pix_vect.clear()
@@ -90,7 +87,7 @@ def create_exclusion(input_mask, output_map_name,
     pix_vect.clear()
     del tmp_map
 
-    print "Final Map:", output_map.Area(), output_map.Size()
+    print("Final Map:", output_map.Area(), output_map.Size())
     if output_map_name is not None:
         output_map.Write(output_map_name)
 
@@ -108,8 +105,8 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
     Args:
         input_mask: string name of the input fits image file
         ext_map: stomp.Map object specifying the area to exclude
-        output_name: string name of the file to write the resultant STOMP map to
-        resolution: int resolution to create the covering STOMP map at.
+        output_name: string name of the file to write the resultant STOMP map
+        to resolution: int resolution to create the covering STOMP map at.
         offset: int number of pixels to offset from the edge of the image.
         verbose: bool print check statemetns to stdout
     """
@@ -119,7 +116,6 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
     else:
         w = wcs.WCS(fits.getheader(wcs_file))
 
-
     naxis1_edge_step = ((hdu[0].header['NAXIS1'] - 1 - 2 * offset) //
                         (1. * n_points))
     naxis2_edge_step = ((hdu[0].header['NAXIS2'] - 1 - 2 * offset) //
@@ -127,75 +123,75 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
 
     if counter_clockwise_pixels:
         ang_vect = stomp.AngularVector()
-        ### South edge:
+        # South edge:
         for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[1 + offset + p_idx * naxis1_edge_step,
-                           1 + offset]],
-                          np.float_), 1)[0]
+                         1 + offset]],
+                         np.float_), 1)[0]
             ang_vect.push_back(stomp.AngularCoordinate(
-            tmp_point[0], tmp_point[1],
-            stomp.AngularCoordinate.Equatorial))
-        ### West edge:
+                               tmp_point[0], tmp_point[1],
+                               stomp.AngularCoordinate.Equatorial))
+        # West edge:
         for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[hdu[0].header['NAXIS1'] - offset,
-                           1 + offset + p_idx * naxis2_edge_step]],
-                          np.float_), 1)[0]
+                         1 + offset + p_idx * naxis2_edge_step]],
+                         p.float_), 1)[0]
             ang_vect.push_back(stomp.AngularCoordinate(
                 tmp_point[0], tmp_point[1],
                 stomp.AngularCoordinate.Equatorial))
-        ### North edge:
+        # North edge:
         for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[hdu[0].header['NAXIS1'] - offset -
-                           p_idx * naxis1_edge_step,
-                           hdu[0].header['NAXIS2'] - offset]],
-                          np.float_), 1)[0]
+                         p_idx * naxis1_edge_step,
+                         hdu[0].header['NAXIS2'] - offset]],
+                         np.float_), 1)[0]
             ang_vect.push_back(stomp.AngularCoordinate(
                 tmp_point[0], tmp_point[1],
                 stomp.AngularCoordinate.Equatorial))
-        ### East edge:
+        # East edge:
         for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[1 + offset,
-                           hdu[0].header['NAXIS2'] - offset -
-                           p_idx * naxis2_edge_step]],
+                         hdu[0].header['NAXIS2'] - offset -
+                         p_idx * naxis2_edge_step]],
                          np.float_), 1)[0]
             ang_vect.push_back(stomp.AngularCoordinate(
                 tmp_point[0], tmp_point[1],
                 stomp.AngularCoordinate.Equatorial))
     else:
         ang_vect = stomp.AngularVector()
-        ### South edge:
+        # South edge:
         for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[1 + offset,
-                           1 + offset + p_idx * naxis2_edge_step]],
-                          np.float_), 1)[0]
+                         1 + offset + p_idx * naxis2_edge_step]],
+                         np.float_), 1)[0]
             ang_vect.push_back(stomp.AngularCoordinate(
-            tmp_point[0], tmp_point[1],
-            stomp.AngularCoordinate.Equatorial))
-        ### West edge:
+                               tmp_point[0], tmp_point[1],
+                               stomp.AngularCoordinate.Equatorial))
+        # West edge:
         for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
-                np.array([[ 1 + offset + p_idx * naxis1_edge_step,
-                           hdu[0].header['NAXIS2'] - offset]],
-                          np.float_), 1)[0]
+                np.array([[1 + offset + p_idx * naxis1_edge_step,
+                         hdu[0].header['NAXIS2'] - offset]],
+                         np.float_), 1)[0]
             ang_vect.push_back(stomp.AngularCoordinate(
                 tmp_point[0], tmp_point[1],
                 stomp.AngularCoordinate.Equatorial))
-        ### North edge:
+        # North edge:
         for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
-                np.array([[hdu[0].header['NAXIS1'] - offset ,
-                           hdu[0].header['NAXIS2'] - offset -
-                           p_idx * naxis2_edge_step]],
-                          np.float_), 1)[0]
+                np.array([[hdu[0].header['NAXIS1'] - offset,
+                         hdu[0].header['NAXIS2'] - offset -
+                         p_idx * naxis2_edge_step]],
+                         np.float_), 1)[0]
             ang_vect.push_back(stomp.AngularCoordinate(
                 tmp_point[0], tmp_point[1],
                 stomp.AngularCoordinate.Equatorial))
-        ### East edge:
+        # East edge:
         for p_idx in range(n_points):
             tmp_point = w.wcs_pix2world(
                 np.array([[hdu[0].header['NAXIS1'] - offset -
@@ -214,6 +210,7 @@ def create_excluded_map(input_mask, ext_map, output_name, resolution,
     output_stomp_map.Write(output_name)
 
     return None
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -237,8 +234,8 @@ if __name__ == '__main__':
                         'input_fits_mask. ')
     parser.add_argument('--output_exclusion_name', default=None,
                         type=str, help='Name of output STOMP map to exclude '
-                        'from the area. If the value is none, the intermediate '
-                        'exclusion map is not written.')
+                        'from the area. If the value is none, the '
+                        'intermediate exclusion map is not written.')
     parser.add_argument('--resolution', default=2048,
                         type=int, help='Resolution at which to '
                         'pixelate the input mask file. Maximum allowed '
@@ -256,21 +253,23 @@ if __name__ == '__main__':
     parser.add_argument('--n_points', default=1,
                         type=int, help='Number of points to sample along. '
                         'The edge of the survey boundry. This is helpful for '
-                        'High laditude fields. A warning may occur stating the '
-                        'area of the polygon created is negative. As long as '
-                        'the map returns successful creation in a reasonable '
-                        'time, the created stomp map will still be correct.')
+                        'High laditude fields. A warning may occur stating '
+                        'the area of the polygon created is negative. As long '
+                        'as the map returns successful creation in a '
+                        'reasonable time, the created stomp map will still be '
+                        'correct.')
     parser.add_argument('--counter_clockwise_pixels', action='store_true',
                         help='Specify which direction the code '
                         'moves around the edge of the image to create the '
                         'map. By default, the code will work if increasing '
-                        'x and increasing y are in the direction of increasing '
-                        'RA and DEC respectivily.')
+                        'x and increasing y are in the direction of '
+                        'increasing RA and DEC respectivily.')
     parser.add_argument('--max_load', default=1000000,
                         type=int, help='Number of image pixels to load '
                         'before dumping them into the map. This is a trick to '
                         'reduce the ammount of memory needed for creating the '
-                        'exclusion map. It also makes the map creation faster.')
+                        'exclusion map. It also makes the map creation '
+                        'faster.')
     parser.add_argument('-v', '--verbose', action="store_true",
                         help='Output full verbosity for stomp')
     args = parser.parse_args()
